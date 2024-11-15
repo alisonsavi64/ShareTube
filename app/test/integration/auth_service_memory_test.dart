@@ -12,7 +12,7 @@ void main() {
   late LocalStorage localStorage;
 
   setUp((){
-    localStorage =FlutterSecureLocalStorageMemory();
+    localStorage = FlutterSecureLocalStorageMemory();
     authService = AuthServiceMemory(localStorage: localStorage);
   });
 

@@ -13,6 +13,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<NewName>((event, emit) {
       emit(state.copyWith(name: event.name));
     });
+
+    on<RefreshUserDataEvent>((event, emit) async {
+      await _initializeState();
+    });
+
     _initializeState();
   }
 
@@ -24,6 +29,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<void> _initializeState() async {
     String? jsonUser = await localStorage.read(DBKeys.sessionUserData);
+    debugPrint(jsonUser);
     if (jsonUser != null) {
       Map<String, dynamic> userData = jsonDecode(jsonUser);
       add(NewName(name: userData['name']));

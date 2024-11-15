@@ -1,4 +1,6 @@
 import 'package:animations/animations.dart';
+import 'package:app/app/application/usecases/sign_in/sign_in.dart';
+import 'package:app/app/application/usecases/sign_up/sign_up.dart';
 import 'package:app/app/infra/presentation/pages/home/home_page.dart';
 import 'package:app/app/infra/presentation/pages/home/widgets/build_drawer_menu.dart';
 import 'package:app/app/infra/presentation/pages/home/widgets/build_nav_bar.dart';
@@ -8,7 +10,9 @@ import 'package:app/app/infra/presentation/pages/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class NavBarController extends StatefulWidget {
-  const NavBarController({super.key});
+  final SignIn signIn;
+  final SignUp signUp;
+  const NavBarController({super.key, required this.signIn, required this.signUp});
 
   @override
   State<NavBarController> createState() => _NavBarControllerState();
@@ -26,8 +30,8 @@ class _NavBarControllerState extends State<NavBarController> {
     super.initState();
     items = [
       NavModel(page: HomePage(), navKey: homeNavKey),
-      NavModel(page: LibraryPage(), navKey: libraryNavKey),
-      NavModel(page: ProfilePage(), navKey: accountNavKey)
+      NavModel(page: LibraryPage(signIn: widget.signIn, signUp: widget.signUp), navKey: libraryNavKey),
+      NavModel(page: ProfilePage(signIn: widget.signIn, signUp: widget.signUp), navKey: accountNavKey)
     ];
   }
 

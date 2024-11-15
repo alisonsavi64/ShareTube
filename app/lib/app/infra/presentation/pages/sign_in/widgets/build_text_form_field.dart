@@ -1,37 +1,39 @@
-import 'package:app/app/domain/exceptions/base_exception.dart';
 import 'package:flutter/material.dart';
 
-class BuildTextFormField extends StatelessWidget {
-  final String labelText;
-  final TextEditingController controller;
-  final Icon suffixIcon;
-  final TextInputType keyBoardType;
-  final bool obscureText;
-  final Function? validator; 
+import '../../../../../domain/exceptions/base_exception.dart';
 
-  const BuildTextFormField(
-      {super.key,
-      required this.controller,
-      required this.labelText,
-      required this.suffixIcon,
-      required this.keyBoardType,
-      required this.obscureText,
-      required this.validator});
+class BuildTextFormField extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final bool obscureText;
+  final Widget? suffixIcon;
+
+  const BuildTextFormField({
+    super.key,
+    required this.controller,
+    required this.labelText,
+    this.keyboardType,
+    this.validator,
+    this.obscureText = false,
+    this.suffixIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: labelText,
-          suffixIcon: suffixIcon,
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(),
-          ),
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        suffixIcon: suffixIcon,
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(),
         ),
-        keyboardType: keyBoardType,
-        obscureText: obscureText,
-              validator: (value) {
+      ),
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      validator: (value) {
         try {
           if (validator != null) {
             return validator!(value);
@@ -42,6 +44,7 @@ class BuildTextFormField extends StatelessWidget {
         } on Exception catch (error) {
           return 'Erro desconhecido: $error';
         }
-      },);
+      },
+    );
   }
 }
